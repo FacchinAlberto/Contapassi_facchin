@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#090C1E"
+    tools:context=".MainActivity">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center"
+        android:orientation="vertical"
+        tools:layout_editor_absoluteX="0dp"
+        tools:layout_editor_absoluteY="64dp">
+
+        <TextView
+            android:id="@+id/lbl_current"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="Passi sessione corrente"
+            android:textColor="#FFFFFF"
+            android:textSize="30sp" />
+
+        <TextView
+            android:id="@+id/txt_current"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="0"
+            android:textColor="#FFFFFF"
+            android:textSize="36sp" />
+
+        <Space
+            android:layout_width="match_parent"
+            android:layout_height="28dp" />
+
+        <View
+            android:id="@+id/divider1"
+            android:layout_width="294dp"
+            android:layout_height="3dp"
+            android:background="#DCB02E" />
+
+        <Space
+            android:layout_width="match_parent"
+            android:layout_height="32dp" />
+
+        <TextView
+            android:id="@+id/lbl_progress"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="Progresso giornaliero"
+            android:textColor="#FFFFFF"
+            android:textSize="30sp" />
+
+        <Space
+            android:layout_width="422dp"
+            android:layout_height="38dp" />
+
+        <ProgressBar
+            android:id="@+id/progressBar"
+            style="@android:style/Widget.ProgressBar.Horizontal"
+            android:layout_width="284dp"
+            android:layout_height="49dp"
+            android:background="#DCB02E"
+            android:max="750" />
+
+        <Space
+            android:layout_width="match_parent"
+            android:layout_height="31dp" />
+
+        <View
+            android:id="@+id/divider2"
+            android:layout_width="294dp"
+            android:layout_height="3dp"
+            android:background="#DCB02E" />
+
+        <Space
+            android:layout_width="427dp"
+            android:layout_height="27dp" />
+
+        <TextView
+            android:id="@+id/lbl_total"
+            android:layout_width="224dp"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="Passi totali"
+            android:textColor="#FFFFFF"
+            android:textSize="30sp" />
+
+        <TextView
+            android:id="@+id/txt_total"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="0"
+            android:textColor="#FFFFFF"
+            android:textSize="36sp" />
+
+        <Space
+            android:layout_width="match_parent"
+            android:layout_height="21dp" />
+
+        <Button
+            android:id="@+id/btn_azzera"
+            android:layout_width="197dp"
+            android:layout_height="57dp"
+            android:gravity="center"
+            android:text="Azzera"
+            android:textColor="#090C1E"
+            android:textSize="24sp"
+            app:backgroundTint="#DCB02E" />
+    </LinearLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
