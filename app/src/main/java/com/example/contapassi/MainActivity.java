@@ -26,7 +26,7 @@ import java.util.Random;
 
 public class MainActivity extends AppCompatActivity implements SensorEventListener {
 
-    private int daily_steps, bonus = 100, n, random_steps, min, max;    //min e max servono per generare numeri random
+    private int daily_steps = 0, bonus = 100, n, random_steps, min, max;    //min e max servono per generare numeri random
     private static int total_steps = 0;
     private SensorManager sensorManager;
     private TextView lbl_daily, txt_daily, lbl_total, lbl_progress;
@@ -132,7 +132,7 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
             else {  //fa partire la SecondActivity relativa alla sfida
                 Intent t = new Intent(MainActivity.this, SecondActivity.class);
                 random = new Random();
-                max = 60;
+                max = 40;
                 min = 10;
                 random_steps = random.nextInt((max - min) + 1) + min;
                 t.putExtra("random_steps", random_steps);
