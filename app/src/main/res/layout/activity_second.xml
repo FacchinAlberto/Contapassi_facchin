@@ -17,7 +17,7 @@
 
         <Space
             android:layout_width="match_parent"
-            android:layout_height="80dp" />
+            android:layout_height="69dp" />
 
         <TextView
             android:id="@+id/txt_challenge"
@@ -40,7 +40,7 @@
 
         <Space
             android:layout_width="match_parent"
-            android:layout_height="64dp" />
+            android:layout_height="35dp" />
 
         <TextView
             android:id="@+id/lbl_timer"
@@ -55,31 +55,29 @@
             android:layout_width="match_parent"
             android:layout_height="25dp" />
 
+        <Button
+            android:id="@+id/btn_timer"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Avvia"
+            android:textColor="#000000"
+            android:textSize="36sp"
+            app:backgroundTint="#DCB02E" />
+
         <TextView
             android:id="@+id/txt_timer"
-            android:layout_width="123dp"
-            android:layout_height="wrap_content"
+            android:layout_width="110dp"
+            android:layout_height="60dp"
             android:background="#DCB02E"
             android:gravity="center"
             android:text="60"
-            android:textColor="#090C1E"
-            android:textSize="36sp" />
+            android:textColor="#000000"
+            android:textSize="36sp"
+            android:textStyle="bold" />
 
         <Space
             android:layout_width="match_parent"
-            android:layout_height="52dp" />
-
-        <ProgressBar
-            android:id="@+id/progressBar2"
-            style="@android:style/Widget.DeviceDefault.Light.ProgressBar.Large.Inverse"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:max="60"
-            android:progress="60" />
-
-        <Space
-            android:layout_width="match_parent"
-            android:layout_height="50dp" />
+            android:layout_height="34dp" />
 
         <View
             android:id="@+id/divider4"
@@ -99,6 +97,19 @@
             android:text="Stai al passo"
             android:textColor="#FFFFFF"
             android:textSize="30sp" />
+
+        <Space
+            android:layout_width="match_parent"
+            android:layout_height="34dp" />
+
+        <Button
+            android:id="@+id/btn_home"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="HOME"
+            android:textColor="#000000"
+            android:textSize="36sp"
+            app:backgroundTint="#DCB02E" />
 
     </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

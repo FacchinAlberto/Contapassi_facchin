@@ -1,23 +1,38 @@
 package com.example.contapassi;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
-import android.widget.ProgressBar;
+import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
+
+import androidx.appcompat.app.AppCompatActivity;
+
+import java.util.ArrayList;
 
 public class SecondActivity extends AppCompatActivity {
 
-    private TextView txt_timer, txt_warning;
-    private Intent t = getIntent();
-    private int random_steps = t.getIntExtra("random_steps", 1);
-    private int current_steps = t.getIntExtra("current_steps", 1);
-    private ProgressBar progressBar;
+    private static TextView txt_timer, txt_warning, txt_challenge;
+    private static int random_steps, total_steps;
+    private boolean superata = true;    //indica se la sfida è stata superata
+
+    public static void setTextWarning(String s) {
+        txt_warning.setText(s);
+    }
+
+    //metodo per settare il testo della TextView relativa al timer ad ogni iterazione del ciclo del thread del service
+    public static void setTextTimer(String s) {
+        if (s.equals("0")){
+            setTextWarning("Clicca qui");
+            txt_warning.setTextSize(24);
+        }
+        txt_timer.setText(s);
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -27,76 +42,92 @@ public class SecondActivity extends AppCompatActivity {
 
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
 
-        TextView txt_challenge = (TextView) findViewById(R.id.txt_challenge);
+        Intent t = getIntent();
+        ArrayList<Integer> aus = t.getIntegerArrayListExtra("aus");
+        random_steps = aus.get(0);
+        total_steps = aus.get(1);
+
+        txt_challenge = (TextView) findViewById(R.id.txt_challenge);
         txt_challenge.setText("Esegui "+random_steps+" passi");
 
         txt_timer = (TextView) findViewById(R.id.txt_timer);
-        txt_timer.setBackgroundColor(getResources().getColor(R.color.yellow));
-
+        txt_timer.setVisibility(View.INVISIBLE);
+        Button btn_timer = (Button) findViewById(R.id.btn_timer);
+        btn_timer.setVisibility(View.VISIBLE);
+        Button btn_home = (Button) findViewById(R.id.btn_home);
         TextView lbl_timer = (TextView) findViewById(R.id.lbl_timer);
         txt_warning = (TextView) findViewById(R.id.txt_warning);
         txt_warning.setText("Stai al passo");
 
-        progressBar = (ProgressBar) findViewById(R.id.progressBar);
+        btn_timer.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onClickStartService(v);
+                txt_timer.setVisibility(View.VISIBLE);
+                btn_timer.setVisibility(View.GONE);
+            }
+        });
 
-        Intent service = new Intent(SecondActivity.this, MyService.class);
-        startService(service);
+        btn_home.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                AlertDialog.Builder builder = new AlertDialog.Builder(SecondActivity.this);
+                builder.setTitle("Esito sfida");
+                builder.setCancelable(false);
+
+                if (txt_timer.getText().equals("0")) {  //controlla se il tempo è esaurito
+                    /*
+                    controlla se i passi nel momento in cui finisce la sfida sono minori
+                    dei passi prima della sida sommati ai passi da compiere
+                    */
+                    if (MainActivity.getCurrentSteps() < (total_steps + random_steps)) {
+                        MainActivity.azzeraTotalSteps();    //azzera i passi totali
+                        builder.setMessage("Sfida non superata");
+                    } else {
+                        builder.setMessage("Sfida superata");
+                    }
+                    //neutral button
+                    builder.setNeutralButton("Ok", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            dialog.dismiss();
+                            finish();
+                        }
+                    });
+                    AlertDialog alert = builder.create();
+                    alert.show();
+                }
+                else    //altrimenti impedisce all'utente di uscire finchè non finisce la sfida
+                    Toast.makeText(SecondActivity.this, "Termina la sfida", Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 
-    //metodo per settare il testo della TextView relativa al timer ad ogni iterazione del ciclo del thread del service
-    public void setText(String s) {
-        txt_timer.setText(s);
-        progressBar.setProgress(Integer.parseInt(s));
-
-        if (s.equals("0")) { //controllo se il tempo è scaduto
-            stopService(new Intent(SecondActivity.this, MyService.class));
-
-            //AlertDialog che fa visualizzare all'utente l'esito della sfida, se è stata superata oppure no
-            AlertDialog.Builder builder = new AlertDialog.Builder(SecondActivity.this);
-            builder.setTitle("Esito della sfida");
-            builder.setCancelable(false);
-
-            if (MainActivity.getTotalSteps() < (random_steps + current_steps)) {
-                MainActivity.azzeraTotalSteps();
-                builder.setMessage("Purtoppo la sfida non è stata superata");
-            }
-            else {
-                builder.setMessage("Sfida superata con successo");
-            }
-
-            //neutral button
-            builder.setNeutralButton("Chiudi", new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialog, int which) {
-                    dialog.dismiss();
-                    finish();
-                }
-            });
-            AlertDialog alert = builder.create();
-            alert.show();
-        }
-        else if (s.equals(String.valueOf(30))) {    //controllo se mancano 30 secondi
-            txt_timer.setBackgroundColor(getResources().getColor(R.color.red));
-            txt_warning.setText("Non rimane molto tempo...");
-        }
+    public void onClickStartService(View widget)
+    {
+        startService(new Intent(SecondActivity.this, MyService.class));
     }
 
     @Override
-    public void onBackPressed() {
+    public void onBackPressed() {   //quando viene premuto il pulsante per tornare indietro viene verificata l'intenzionalità dell'azione
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setTitle("Esci");
-        builder.setMessage("Vuoi uscire?");
+        builder.setTitle("Impossibile uscire");
+        builder.setMessage("Premere home per uscire");
         builder.setCancelable(true);
 
         //neutral button
-        builder.setNeutralButton("Chiudi", new DialogInterface.OnClickListener() {
+        builder.setNeutralButton("Ok", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 dialog.dismiss();
-                finish();
             }
         });
         AlertDialog alert = builder.create();
         alert.show();
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
     }
 }
