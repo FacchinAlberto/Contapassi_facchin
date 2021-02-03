@@ -19,7 +19,6 @@ public class SecondActivity extends AppCompatActivity {
 
     private static TextView txt_timer, txt_warning, txt_challenge;
     private static int random_steps, total_steps;
-    private boolean superata = true;    //indica se la sfida è stata superata
 
     public static void setTextWarning(String s) {
         txt_warning.setText(s);
