@@ -66,7 +66,7 @@
             android:layout_width="284dp"
             android:layout_height="49dp"
             android:background="#DCB02E"
-            android:max="10" />
+            android:max="20" />
 
         <Space
             android:layout_width="match_parent"

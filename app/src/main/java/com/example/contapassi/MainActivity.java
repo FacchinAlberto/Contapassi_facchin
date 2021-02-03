@@ -136,13 +136,12 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
         txt_daily.setText(String.valueOf(daily_steps));
         txt_total.setText(String.valueOf(total_steps));
         current_day = day.getInt("current_day", current_day);
-/*
+
         if (currentTime.getDay() != current_day)
             daily_steps = 0;
         else
             daily_steps = ds.getInt("daily_steps", daily_steps);
 
- */
         progresses = pr.getInt("progresses", progresses);
         progressBar.setProgress(total_steps%progressBar.getMax());
     }
